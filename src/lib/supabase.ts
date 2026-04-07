@@ -24,7 +24,9 @@ function getSupabaseAnonKey(): string | undefined {
 export function getSupabaseClient(): TypedSupabaseClient {
   if (!isSupabaseEnabled()) {
     throw new Error(
-      "Supabase access is disabled. Set VITE_ENABLE_SUPABASE=true to enable backend calls.",
+      import.meta.env.DEV
+        ? "Backend access is disabled. Set VITE_ENABLE_SUPABASE=true to enable backend calls."
+        : "Service is temporarily unavailable.",
     );
   }
 
@@ -34,8 +36,9 @@ export function getSupabaseClient(): TypedSupabaseClient {
 
     if (!url || !anonKey) {
       throw new Error(
-        "Missing Supabase environment variables. " +
-          "Create a .env.local file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY (or VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY)",
+        import.meta.env.DEV
+          ? "Missing backend environment variables. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY (or VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY)."
+          : "Service is temporarily unavailable.",
       );
     }
 

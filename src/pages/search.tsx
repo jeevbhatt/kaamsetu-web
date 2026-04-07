@@ -275,8 +275,8 @@ export default function SearchPage() {
       toast.warning(
         isNepali ? "सेवा उपलब्ध छैन" : "Service unavailable",
         isNepali
-          ? "कामदार भाडा सुविधा सक्षम गर्न Supabase कन्फिगर गर्नुहोस्।"
-          : "Configure Supabase to enable hiring.",
+          ? "कामदार भाडा सेवा अहिले अस्थायी रूपमा बन्द छ।"
+          : "Hiring is temporarily unavailable right now.",
       );
       return;
     }

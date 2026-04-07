@@ -25,8 +25,8 @@ export default function LoginPage() {
     if (!backendConfigured) {
       setError(
         isNepali
-          ? "लगइन सेवा अहिले उपलब्ध छैन। Supabase कन्फिगर गर्नुहोस्।"
-          : "Login service is unavailable. Configure Supabase first.",
+          ? "लगइन सेवा अहिले अस्थायी रूपमा उपलब्ध छैन।"
+          : "Login is temporarily unavailable.",
       );
       return;
     }
@@ -63,8 +63,8 @@ export default function LoginPage() {
     if (!backendConfigured) {
       setError(
         isNepali
-          ? "लगइन सेवा अहिले उपलब्ध छैन। Supabase कन्फिगर गर्नुहोस्।"
-          : "Login service is unavailable. Configure Supabase first.",
+          ? "लगइन सेवा अहिले अस्थायी रूपमा उपलब्ध छैन।"
+          : "Login is temporarily unavailable.",
       );
       return;
     }
@@ -119,8 +119,8 @@ export default function LoginPage() {
           {!backendConfigured && (
             <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
               {isNepali
-                ? "OTP लगइन सक्षम गर्न Supabase कन्फिगर गर्नुहोस्।"
-                : "Configure Supabase to enable OTP login."}
+                ? "OTP लगइन सेवा अहिले उपलब्ध छैन।"
+                : "OTP login is currently unavailable."}
             </p>
           )}
 

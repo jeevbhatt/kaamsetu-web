@@ -43,8 +43,8 @@ export default function WorkerPage() {
             </h2>
             <p className="text-terrain-500">
               {isNepali
-                ? "Supabase कन्फिगर भएपछि मात्र कामदार विवरण लोड हुनेछ।"
-                : "Configure Supabase to load real worker profiles."}
+                ? "यो समयमा कामदार विवरण लोड गर्न सकिएन।"
+                : "Unable to load worker profiles at the moment."}
             </p>
           </CardContent>
         </Card>

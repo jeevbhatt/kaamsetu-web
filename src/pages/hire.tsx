@@ -33,8 +33,8 @@ export default function HirePage() {
     if (!backendConfigured) {
       setSubmitError(
         isNepali
-          ? "भाडा अनुरोध सेवा उपलब्ध छैन। Supabase कन्फिगर गर्नुहोस्।"
-          : "Hire request service is unavailable. Configure Supabase first.",
+          ? "भाडा अनुरोध सेवा अहिले उपलब्ध छैन।"
+          : "Hire request service is currently unavailable.",
       );
       return;
     }
@@ -142,8 +142,8 @@ export default function HirePage() {
                 <Database className="w-4 h-4 mt-0.5" />
                 <span>
                   {isNepali
-                    ? "Supabase कन्फिगर भएपछि मात्र भाडा अनुरोध पठाउन सकिन्छ।"
-                    : "Hire requests can be sent after Supabase is configured."}
+                    ? "अहिलेलाई भाडा अनुरोध सेवा अस्थायी रूपमा बन्द छ।"
+                    : "Hire requests are temporarily unavailable right now."}
                 </span>
               </div>
             </div>
