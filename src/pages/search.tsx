@@ -30,6 +30,10 @@ const jobCategoryOptions = jobCategories.map((category, index) => ({
   id: index + 1,
 }));
 
+const jobCategoryIdBySlug = new Map(
+  jobCategoryOptions.map((category) => [category.slug, category.id]),
+);
+
 const PAGE_SIZE = 9;
 
 function parsePageParam(value: string | null): number {
@@ -40,6 +44,19 @@ function parsePageParam(value: string | null): number {
   const parsed = Number(value);
   if (!Number.isInteger(parsed) || parsed < 1) {
     return 1;
+  }
+
+  return parsed;
+}
+
+function parseNumberParam(value: string | null): number | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed)) {
+    return undefined;
   }
 
   return parsed;
@@ -118,6 +135,31 @@ export default function SearchPage() {
     queryPageSize,
     backendConfigured,
   );
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const provinceFromUrl = parseNumberParam(params.get("provinceId"));
+    const districtFromUrl = parseNumberParam(params.get("districtId"));
+    const jobCategoryIdFromUrl = parseNumberParam(params.get("jobCategoryId"));
+    const jobCategorySlugFromUrl = params.get("jobCategory");
+    const jobCategoryIdFromSlug = jobCategorySlugFromUrl
+      ? jobCategoryIdBySlug.get(jobCategorySlugFromUrl)
+      : undefined;
+
+    const hasUrlFilters =
+      provinceFromUrl !== undefined ||
+      districtFromUrl !== undefined ||
+      jobCategoryIdFromUrl !== undefined ||
+      jobCategoryIdFromSlug !== undefined;
+
+    if (!hasUrlFilters) {
+      return;
+    }
+
+    setProvinceId(provinceFromUrl);
+    setDistrictId(districtFromUrl);
+    setJobCategory(jobCategoryIdFromUrl ?? jobCategoryIdFromSlug);
+  }, [setDistrictId, setJobCategory, setProvinceId]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -406,8 +448,8 @@ export default function SearchPage() {
           {backendConfigured
             ? `${resultCount} ${isNepali ? "कामदार भेटियो" : "workers found"}`
             : isNepali
-              ? "कामदार सूची उपलब्ध छैन"
-              : "Workers are unavailable"}
+              ? "फिल्टर प्रयोग गरेर कार्य वर्ग हेर्नुहोस्"
+              : "Browse by filters and job categories"}
         </h2>
       </div>
 
@@ -417,13 +459,13 @@ export default function SearchPage() {
             <Database className="w-10 h-10 mx-auto mb-3 text-terrain-500" />
             <h3 className="text-lg font-semibold text-mountain-900 mb-2">
               {isNepali
-                ? "Supabase कन्फिगर भएपछि मात्र कामदार सूची देखिन्छ"
-                : "Worker list is available after Supabase is configured"}
+                ? "अहिलेलाई कामदार प्रोफाइल उपलब्ध छैन"
+                : "Worker profiles are temporarily unavailable"}
             </h3>
             <p className="text-terrain-500">
               {isNepali
-                ? "हालका लागि मोडेल डेटा हटाइएको छ। VITE_SUPABASE_URL र VITE_SUPABASE_ANON_KEY सेट गर्नुहोस्।"
-                : "Mock data has been removed. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to load real workers."}
+                ? "प्रदेश, जिल्ला र कार्य वर्ग चयन गरेर खोज फिल्टर तयार राख्न सक्नुहुन्छ।"
+                : "You can still explore provinces, districts, and job categories using filters."}
             </p>
           </CardContent>
         </Card>
