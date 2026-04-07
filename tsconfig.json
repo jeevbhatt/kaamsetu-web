@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shram-sewa/shared": ["../../packages/shared/src"],
+      "@shram-sewa/shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "include": ["src"]
+}
