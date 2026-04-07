@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
-    "@shram-sewa/shared": "workspace:*",
-    "@shram-sewa/ui-tokens": "workspace:*",
+    "@shram-sewa/shared": "file:./shared",
+    "@shram-sewa/ui-tokens": "file:./ui-tokens",
     "@supabase/supabase-js": "^2.45.0",
     "@tanstack/react-query": "^5.56.0",
     "@tanstack/react-router": "^1.168.10",
