@@ -12,8 +12,8 @@ import type {
 
 // Environment variables (should be set in .env)
 const importMetaEnv = (import.meta as { env?: Record<string, string> }).env;
-const SUPABASE_URL = importMetaEnv?.VITE_SUPABASE_URL ?? "";
-const SUPABASE_ANON_KEY = importMetaEnv?.VITE_SUPABASE_ANON_KEY ?? "";
+const SUPABASE_URL = importMetaEnv?.PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_ANON_KEY = importMetaEnv?.PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 /**
  * Supabase client instance

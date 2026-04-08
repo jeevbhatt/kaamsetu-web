@@ -414,7 +414,7 @@ export const workersApi = {
       .select(
         `
         *,
-        user:users(full_name, full_name_np, phone, avatar_url),
+        user:users(full_name, full_name_np, avatar_url),
         job_category:job_categories(name_en, name_np, icon),
         province:provinces(name_en, name_np),
         district:districts(name_en, name_np),
@@ -465,7 +465,7 @@ export const workersApi = {
       .select(
         `
         *,
-        user:users(full_name, full_name_np, phone, avatar_url),
+        user:users(full_name, full_name_np, avatar_url),
         job_category:job_categories(name_en, name_np, icon),
         province:provinces(name_en, name_np),
         district:districts(name_en, name_np),
@@ -486,7 +486,7 @@ export const workersApi = {
       .select(
         `
         *,
-        user:users(full_name, full_name_np, phone, avatar_url),
+        user:users(full_name, full_name_np, avatar_url),
         job_category:job_categories(name_en, name_np, icon),
         province:provinces(name_en, name_np),
         district:districts(name_en, name_np),
@@ -586,7 +586,7 @@ export const workerProfilesApi = {
       .select(
         `
         *,
-        user:users(full_name, full_name_np, phone, avatar_url),
+        user:users(full_name, full_name_np, avatar_url),
         job_category:job_categories(name_en, name_np, icon),
         province:provinces(name_en, name_np),
         district:districts(name_en, name_np),
