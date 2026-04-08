@@ -7,7 +7,7 @@ import { isSupabaseConfigured } from "../lib";
 
 export default function LoginPage() {
   const { locale, setLocale } = useUIStore();
-  const { login } = useAuthStore();
+  const { login, authError } = useAuthStore();
   const navigate = useNavigate();
   const isNepali = locale === "ne";
   const backendConfigured = isSupabaseConfigured();
@@ -46,9 +46,10 @@ export default function LoginPage() {
 
     if (!otpSent) {
       setError(
-        isNepali
-          ? "OTP पठाउन सकिएन। पछि पुन: प्रयास गर्नुहोस्।"
-          : "Failed to send OTP. Please try again.",
+        authError ??
+          (isNepali
+            ? "OTP पठाउन सकिएन। पछि पुन: प्रयास गर्नुहोस्।"
+            : "Failed to send OTP. Please try again."),
       );
       return;
     }
@@ -80,9 +81,10 @@ export default function LoginPage() {
 
     if (!isLoggedIn) {
       setError(
-        isNepali
-          ? "OTP प्रमाणिकरण असफल भयो। पुन: प्रयास गर्नुहोस्।"
-          : "OTP verification failed. Please try again.",
+        authError ??
+          (isNepali
+            ? "OTP प्रमाणिकरण असफल भयो। पुन: प्रयास गर्नुहोस्।"
+            : "OTP verification failed. Please try again."),
       );
       return;
     }

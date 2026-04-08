@@ -115,6 +115,7 @@ interface AuthState {
   session: AuthSession | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  authError: string | null;
 
   // Actions
   setSession: (session: AuthSession | null) => void;
@@ -131,6 +132,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   session: null,
   isLoading: true,
   isAuthenticated: false,
+  authError: null,
 
   // Actions
   setSession: (session) =>
@@ -139,6 +141,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       user: session?.user ?? null,
       isAuthenticated: !!session,
       isLoading: false,
+      authError: null,
     }),
 
   setUser: (user) =>
@@ -158,6 +161,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         session: null,
         isAuthenticated: false,
         isLoading: false,
+        authError: "OTP login is currently unavailable.",
       });
       return;
     }
@@ -172,6 +176,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         user: liveSession?.user ?? null,
         isAuthenticated: !!liveSession,
         isLoading: false,
+        authError: null,
       });
 
       if (!authListenerBound) {
@@ -182,6 +187,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
             user: nextSession?.user ?? null,
             isAuthenticated: !!nextSession,
             isLoading: false,
+            authError: null,
           });
         });
         authListenerBound = true;
@@ -193,6 +199,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         session: null,
         isAuthenticated: false,
         isLoading: false,
+        authError: "Authentication service is unavailable.",
       });
     }
   },
@@ -201,7 +208,10 @@ export const useAuthStore = create<AuthState>()((set) => ({
     set({ isLoading: true });
     try {
       if (!isSupabaseConfigured()) {
-        set({ isLoading: false });
+        set({
+          isLoading: false,
+          authError: "OTP login is currently unavailable.",
+        });
         return false;
       }
 
@@ -216,11 +226,14 @@ export const useAuthStore = create<AuthState>()((set) => ({
         });
         if (!success) {
           console.error("OTP request failed:", error);
-          set({ isLoading: false });
+          set({
+            isLoading: false,
+            authError: error ?? "Failed to send OTP. Please try again.",
+          });
           return false;
         }
         // OTP sent successfully - waiting for user to enter it
-        set({ isLoading: false });
+        set({ isLoading: false, authError: null });
         return true;
       }
 
@@ -228,7 +241,10 @@ export const useAuthStore = create<AuthState>()((set) => ({
       const { session, error } = await verifyOtp({ phone, otp });
       if (error || !session) {
         console.error("OTP verification failed:", error);
-        set({ isLoading: false });
+        set({
+          isLoading: false,
+          authError: error ?? "OTP verification failed. Please try again.",
+        });
         return false;
       }
 
@@ -237,11 +253,18 @@ export const useAuthStore = create<AuthState>()((set) => ({
         session,
         isAuthenticated: true,
         isLoading: false,
+        authError: null,
       });
       return true;
     } catch (err) {
       console.error("Login error:", err);
-      set({ isLoading: false });
+      set({
+        isLoading: false,
+        authError:
+          err instanceof Error
+            ? err.message
+            : "Login failed. Please try again.",
+      });
       return false;
     }
   },
@@ -261,6 +284,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       session: null,
       isAuthenticated: false,
       isLoading: false,
+      authError: null,
     });
   },
 }));
